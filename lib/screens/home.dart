@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demeassist_patient/models/user.dart';
+import 'package:demeassist_patient/screens/info.dart';
 import 'package:demeassist_patient/screens/mapWrapper.dart';
 import 'package:demeassist_patient/screens/medicineRemainder.dart';
 import 'package:demeassist_patient/screens/wrapper.dart';
@@ -279,6 +280,23 @@ class _PatientHomeState extends State<PatientHome> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Info(),
+                ),
+              );
+            },
+            child: FaIcon(
+              FontAwesomeIcons.infoCircle,
+            ),
+            backgroundColor: primaryViolet,
+          ),
+          SizedBox(
+            height: 20,
+          ),
           FloatingActionButton(
             onPressed: () {
               Navigator.push(

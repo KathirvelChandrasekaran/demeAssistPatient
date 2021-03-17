@@ -5,7 +5,7 @@ import 'package:demeassist_patient/service/geolocatorService.dart';
 import 'package:demeassist_patient/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:demeassist_patient/models/user.dart';
@@ -38,12 +38,27 @@ class _PatientMapState extends State<PatientMap> {
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
+  FlutterLocalNotificationsPlugin fltrNotification;
 
   @override
   void initState() {
     geoService.getCurrentLocation().listen((position) {
       centerScreen(position);
     });
+    double distance = Geolocator.distanceBetween(widget.homeLat, widget.homeLng,
+        widget.initialPosition.latitude, widget.initialPosition.longitude);
+    print("Distance is " + distance.toString());
+
+    var androidInitilize = new AndroidInitializationSettings('app_icon');
+    var iOSinitilize = new IOSInitializationSettings();
+    var initilizationsSettings = new InitializationSettings(
+        android: androidInitilize, iOS: iOSinitilize);
+    fltrNotification = new FlutterLocalNotificationsPlugin();
+    fltrNotification.initialize(initilizationsSettings,
+        onSelectNotification: notificationSelected);
+
+    if (distance > 1) showNotification();
+
     print("home lat lng " +
         widget.homeLat.toString() +
         widget.homeLng.toString());
@@ -64,19 +79,17 @@ class _PatientMapState extends State<PatientMap> {
         "https://maps.googleapis.com/maps/api/directions/json?origin=${widget.homeLat}, ${widget.homeLng}&destination=${widget.initialPosition.latitude}, ${widget.initialPosition.longitude}&key=AIzaSyBEOELGvFI8GJoiLzj3d6sGX_KqY1cJk48");
     _getPolyline();
 
-    totalDistance += _coordinateDistance(
-      widget.homeLat,
-      widget.homeLng,
-      widget.initialPosition.latitude,
-      widget.initialPosition.longitude,
-    );
-
-// Storing the calculated total distance of the route
-    setState(() {
-      _placeDistance = totalDistance.toStringAsFixed(2);
-      print('DISTANCE: $_placeDistance km');
-    });
     super.initState();
+  }
+
+  Future showNotification() async {
+    var android = AndroidNotificationDetails('id', 'channel ', 'description',
+        priority: Priority.high, importance: Importance.max);
+    var iOS = IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: iOS);
+    await fltrNotification.show(3, 'You have been came out of the home',
+        'Touch this to reach home', platform,
+        payload: '');
   }
 
   @override
@@ -152,6 +165,16 @@ class _PatientMapState extends State<PatientMap> {
             tooltip: "Start direction",
           ),
         ],
+      ),
+    );
+  }
+
+  Future notificationSelected(String payload) async {
+    _launchURL("google.navigation:q=${widget.homeLat},${widget.homeLng}");
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text("$payload"),
       ),
     );
   }

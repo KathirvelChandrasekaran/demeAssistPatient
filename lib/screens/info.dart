@@ -101,6 +101,7 @@ class Info extends StatelessWidget {
             ),
           );
         },
+        tooltip: "See Symptoms",
         backgroundColor: Colors.white,
         child: FaIcon(
           FontAwesomeIcons.arrowRight,
@@ -292,6 +293,7 @@ class SecondPage extends StatelessWidget {
             ),
           );
         },
+        tooltip: "See Diagnosis",
         backgroundColor: Colors.white,
         child: FaIcon(
           FontAwesomeIcons.arrowRight,

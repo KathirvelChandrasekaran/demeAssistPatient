@@ -75,32 +75,38 @@ class _RemainderResultState extends State<RemainderResult> {
                 days = remainderDetails['days'];
                 return Center(
                   child: Container(
+                    margin: EdgeInsets.all(20),
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    height: MediaQuery.of(context).size.height * 0.40,
+                    decoration: BoxDecoration(
+                      color: primaryViolet,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          remainderDetails['name'],
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Text(
-                          remainderDetails['dosage'],
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Text(
-                          remainderDetails['takeMedicine'],
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Medicine Name',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04,
+                            ),
+                            Text(
+                              remainderDetails['name'],
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
@@ -109,34 +115,128 @@ class _RemainderResultState extends State<RemainderResult> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              remainderDetails['time']['hr'].toString(),
+                              'Dosage',
                               style: TextStyle(
-                                color: Colors.black,
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                             SizedBox(
-                              width: 10,
-                            ),
-                            Text(":"),
-                            SizedBox(
-                              width: 10,
+                              width: MediaQuery.of(context).size.width * 0.04,
                             ),
                             Text(
-                              remainderDetails['time']['min'].toString(),
+                              remainderDetails['dosage'],
                               style: TextStyle(
-                                color: Colors.black,
-                              ),
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                        Text(
-                          remainderDetails['type'],
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Intake',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04,
+                            ),
+                            Text(
+                              remainderDetails['takeMedicine'],
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Time',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  remainderDetails['time']['hr'].toString(),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  ":",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  remainderDetails['time']['min'].toString(),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Type',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04,
+                            ),
+                            Text(
+                              remainderDetails['type'],
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
@@ -146,7 +246,14 @@ class _RemainderResultState extends State<RemainderResult> {
                           children: [
                             ...days
                                 .map(
-                                  (day) => Text(day + "\t"),
+                                  (day) => Text(
+                                    day + "\t",
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 )
                                 .toList(),
                           ],

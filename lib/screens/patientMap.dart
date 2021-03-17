@@ -6,6 +6,7 @@ import 'package:demeassist_patient/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:demeassist_patient/models/user.dart';
@@ -33,7 +34,7 @@ class _PatientMapState extends State<PatientMap> {
 
   String _placeDistance;
   double totalDistance = 0.0;
-
+  String mobile;
   Map<MarkerId, Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
@@ -45,6 +46,13 @@ class _PatientMapState extends State<PatientMap> {
     geoService.getCurrentLocation().listen((position) {
       centerScreen(position);
     });
+    FirebaseFirestore.instance
+        .collection('PatientDetails')
+        .where('email', isEqualTo: FirebaseAuth.instance.currentUser.email)
+        .get()
+        .then((value) => setState(() {
+              this.mobile = value.docs[0]['mobile'].toString();
+            }));
     double distance = Geolocator.distanceBetween(widget.homeLat, widget.homeLng,
         widget.initialPosition.latitude, widget.initialPosition.longitude);
     print("Distance is " + distance.toString());
@@ -170,11 +178,34 @@ class _PatientMapState extends State<PatientMap> {
   }
 
   Future notificationSelected(String payload) async {
-    _launchURL("google.navigation:q=${widget.homeLat},${widget.homeLng}");
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        content: Text("$payload"),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.phone,
+                  color: primaryViolet,
+                ),
+                tooltip: "Make a call",
+                onPressed: () {
+                  launch('tel://$mobile');
+                }),
+            IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.route,
+                  color: primaryViolet,
+                ),
+                tooltip: "Route to home",
+                onPressed: () {
+                  _launchURL(
+                      "google.navigation:q=${widget.homeLat},${widget.homeLng}");
+                }),
+          ],
+        ),
       ),
     );
   }

@@ -174,6 +174,13 @@ class _LoginPatientState extends State<LoginPatient> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red),
+              ),
             ],
           ),
         ),

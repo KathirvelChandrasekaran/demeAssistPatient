@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:background_location/background_location.dart';
 
 class Wrapper extends StatefulWidget {
   @override
@@ -15,6 +16,33 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   final geoService = GeolocatorService();
+  String latitude = "waiting...";
+  String longitude = "waiting...";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    () async {
+      await BackgroundLocation.setAndroidNotification(
+        title: "Background service is running",
+        message: this.latitude + " " + this.longitude,
+        icon: "@mipmap/ic_launcher",
+      );
+      //await BackgroundLocation.setAndroidConfiguration(1000);
+      await BackgroundLocation.startLocationService(distanceFilter: 1);
+      await BackgroundLocation.setAndroidConfiguration(1000);
+      BackgroundLocation.getLocationUpdates((location) {
+        setState(() {
+          this.latitude = location.latitude.toString();
+          this.longitude = location.longitude.toString();
+        });
+        print("""\n
+                        Latitude:  $latitude
+                        Longitude: $longitude
+                      """);
+      });
+    }();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +62,10 @@ class _WrapperState extends State<Wrapper> {
               FirebaseFirestore.instance
                   .collection('LocationDetails')
                   .doc(uid)
-                  .set({
+                  .update({
                     'latitude': snapshot.data.latitude,
-                    'longitude': snapshot.data.longitude
+                    'longitude': snapshot.data.longitude,
+                    'email': FirebaseAuth.instance.currentUser.email,
                   })
                   .then((value) => print('Value is updated'))
                   .catchError((err) => print(err));

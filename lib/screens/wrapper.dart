@@ -30,17 +30,20 @@ class _WrapperState extends State<Wrapper> {
               if (!snapshot.hasData) return Text("");
               print("Lan " + snapshot.data.latitude.toString());
               print("Lon " + snapshot.data.longitude.toString());
+
               String uid = FirebaseAuth.instance.currentUser.uid;
               FirebaseFirestore.instance
                   .collection('LocationDetails')
                   .doc(uid)
-                  .set({
+                  .update({
                     'latitude': snapshot.data.latitude,
-                    'longitude': snapshot.data.longitude
+                    'longitude': snapshot.data.longitude,
+                    'email': FirebaseAuth.instance.currentUser.email
                   })
                   .then((value) => print('Value is updated'))
                   .catchError((err) => print(err));
               print(snapshot.data);
+
               return Text("");
             },
           ),

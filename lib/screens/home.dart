@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demeassist_patient/models/user.dart';
 import 'package:demeassist_patient/screens/mapWrapper.dart';
 import 'package:demeassist_patient/screens/wrapper.dart';
 import 'package:demeassist_patient/service/authService.dart';
@@ -16,7 +17,7 @@ class _PatientHomeState extends State<PatientHome> {
   final AuthService authService = AuthService();
   String email = FirebaseAuth.instance.currentUser.email;
   String uid = FirebaseAuth.instance.currentUser.uid;
-
+  UserModel user = UserModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,10 +164,6 @@ class _PatientHomeState extends State<PatientHome> {
                                             ),
                                           ),
                                         ),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.10,
-                                  ),
                                 ],
                               ),
                             )

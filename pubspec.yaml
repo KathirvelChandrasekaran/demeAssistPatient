@@ -48,7 +48,8 @@ dependencies:
   flutter_local_notifications: ^4.0.1+2
   date_time_format: ^2.0.1
   liquid_swipe: ^2.0.1
-
+  video_player: ^2.1.0
+  chewie: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

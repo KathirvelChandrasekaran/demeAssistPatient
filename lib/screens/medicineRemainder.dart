@@ -42,7 +42,7 @@ class _RemainderResultState extends State<RemainderResult> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Remainder Section".toUpperCase(),
+          "Reminder Section".toUpperCase(),
           style: TextStyle(
             color: primaryViolet,
             fontWeight: FontWeight.bold,

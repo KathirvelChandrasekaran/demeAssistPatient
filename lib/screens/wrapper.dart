@@ -24,18 +24,28 @@ class _WrapperState extends State<Wrapper> {
     super.initState();
     () async {
       await BackgroundLocation.setAndroidNotification(
-        title: "Background service is running",
-        message: this.latitude + " " + this.longitude,
-        icon: "@mipmap/ic_launcher",
+        title: "DemeAssist Patient is running in background",
+        message: "Location data is been collected for tracking purpose",
+        icon: "@mipmap/app_icon",
       );
-      //await BackgroundLocation.setAndroidConfiguration(1000);
-      await BackgroundLocation.startLocationService(distanceFilter: 1);
-      await BackgroundLocation.setAndroidConfiguration(1000);
+      // await BackgroundLocation.setAndroidConfiguration(1000);
+      await BackgroundLocation.startLocationService();
       BackgroundLocation.getLocationUpdates((location) {
         setState(() {
           this.latitude = location.latitude.toString();
           this.longitude = location.longitude.toString();
         });
+        String uid = FirebaseAuth.instance.currentUser.uid;
+        FirebaseFirestore.instance
+            .collection('LocationDetails')
+            .doc(uid)
+            .update({
+              'latitude': double.parse(latitude),
+              'longitude': double.parse(longitude),
+              'email': FirebaseAuth.instance.currentUser.email,
+            })
+            .then((value) => print('Value is updated'))
+            .catchError((err) => print(err));
         print("""\n
                         Latitude:  $latitude
                         Longitude: $longitude
@@ -58,17 +68,6 @@ class _WrapperState extends State<Wrapper> {
               if (!snapshot.hasData) return Text("");
               print("Lan " + snapshot.data.latitude.toString());
               print("Lon " + snapshot.data.longitude.toString());
-              String uid = FirebaseAuth.instance.currentUser.uid;
-              FirebaseFirestore.instance
-                  .collection('LocationDetails')
-                  .doc(uid)
-                  .update({
-                    'latitude': snapshot.data.latitude,
-                    'longitude': snapshot.data.longitude,
-                    'email': FirebaseAuth.instance.currentUser.email,
-                  })
-                  .then((value) => print('Value is updated'))
-                  .catchError((err) => print(err));
               print(snapshot.data);
               return Text("");
             },

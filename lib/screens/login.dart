@@ -1,3 +1,4 @@
+import 'package:demeassist_patient/screens/forgotPassword.dart';
 import 'package:demeassist_patient/service/authService.dart';
 import 'package:demeassist_patient/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -68,9 +69,6 @@ class _LoginPatientState extends State<LoginPatient> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20.0,
               ),
               Form(
                 key: _formKey,
@@ -172,6 +170,26 @@ class _LoginPatientState extends State<LoginPatient> {
                       ],
                     ),
                   ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswprd(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'Forgot Password',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               SizedBox(

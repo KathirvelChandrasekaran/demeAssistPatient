@@ -3,6 +3,7 @@ import 'package:demeassist_patient/models/user.dart';
 import 'package:demeassist_patient/screens/info.dart';
 import 'package:demeassist_patient/screens/mapWrapper.dart';
 import 'package:demeassist_patient/screens/medicineRemainder.dart';
+import 'package:demeassist_patient/screens/videoSection.dart';
 import 'package:demeassist_patient/screens/wrapper.dart';
 import 'package:demeassist_patient/service/authService.dart';
 import 'package:demeassist_patient/utils/colors.dart';
@@ -77,7 +78,7 @@ class _PatientHomeState extends State<PatientHome> {
 
   Future _showNotification(
       int hr, int min, String name, dosage, takeMedicine, type) async {
-    var time = Time(hr, min, 30);
+    var time = Time(hr, min - 1, 0);
     var androidChannelSpecifics = AndroidNotificationDetails(
       'CHANNEL_ID 4',
       'CHANNEL_NAME 4',
@@ -118,6 +119,20 @@ class _PatientHomeState extends State<PatientHome> {
           ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VideoSection(),
+                ),
+              );
+            },
+            tooltip: "Logout",
+            icon: FaIcon(
+              FontAwesomeIcons.playCircle,
+            ),
+          ),
           IconButton(
             onPressed: () async {
               await authService.signOut();

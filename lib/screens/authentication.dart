@@ -25,7 +25,7 @@ class _AuthenticationState extends State<Authentication> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.10,
               ),
               GestureDetector(
                 onTap: () {

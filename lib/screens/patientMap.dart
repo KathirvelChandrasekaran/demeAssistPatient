@@ -34,7 +34,7 @@ class _PatientMapState extends State<PatientMap> {
 
   String _placeDistance;
   double totalDistance = 0.0;
-  String mobile;
+  String mobile, uid;
   Map<MarkerId, Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
@@ -51,8 +51,14 @@ class _PatientMapState extends State<PatientMap> {
         .where('email', isEqualTo: FirebaseAuth.instance.currentUser.email)
         .get()
         .then((value) => setState(() {
-              this.mobile = value.docs[0]['mobile'].toString();
-            }));
+              this.uid = value.docs[0]['uid'];
+            }))
+        .then((value) => FirebaseFirestore.instance
+            .collection('User')
+            .doc(uid)
+            .collection('UserDetails')
+            .get()
+            .then((value) => this.mobile = value.docs[0]['mobile'].toString()));
     double distance = Geolocator.distanceBetween(widget.homeLat, widget.homeLng,
         widget.initialPosition.latitude, widget.initialPosition.longitude);
     print("Distance is " + distance.toString());

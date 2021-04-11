@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demeassist_patient/models/user.dart';
+import 'package:demeassist_patient/screens/imageScection.dart';
 import 'package:demeassist_patient/screens/info.dart';
 import 'package:demeassist_patient/screens/mapWrapper.dart';
 import 'package:demeassist_patient/screens/medicineRemainder.dart';
@@ -119,6 +120,20 @@ class _PatientHomeState extends State<PatientHome> {
           ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageSection(),
+                ),
+              );
+            },
+            tooltip: "View images",
+            icon: FaIcon(
+              FontAwesomeIcons.image,
+            ),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(

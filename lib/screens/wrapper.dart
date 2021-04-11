@@ -20,7 +20,6 @@ class _WrapperState extends State<Wrapper> {
   String longitude = "waiting...";
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     () async {
       await BackgroundLocation.setAndroidNotification(

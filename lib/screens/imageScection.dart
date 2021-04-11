@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demeassist_patient/screens/chewieListItem.dart';
 import 'package:demeassist_patient/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:video_player/video_player.dart';
 
-class VideoSection extends StatefulWidget {
+class ImageSection extends StatefulWidget {
   @override
-  _VideoSectionState createState() => _VideoSectionState();
+  _ImageSectionState createState() => _ImageSectionState();
 }
 
-class _VideoSectionState extends State<VideoSection> {
+class _ImageSectionState extends State<ImageSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +22,7 @@ class _VideoSectionState extends State<VideoSection> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Video Gallery".toUpperCase(),
+          "Image Gallery".toUpperCase(),
           style: TextStyle(
             color: primaryViolet,
             fontWeight: FontWeight.bold,
@@ -35,9 +33,9 @@ class _VideoSectionState extends State<VideoSection> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection("VideoURL")
+            .collection("ImageURL")
             .doc(FirebaseAuth.instance.currentUser.email)
-            .collection('URL')
+            .collection("URL")
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
@@ -51,17 +49,15 @@ class _VideoSectionState extends State<VideoSection> {
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot urls = snapshot.data.documents[index];
-                  print(urls['videoURL']);
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.85,
-                    decoration: BoxDecoration(
+                  print(urls['imageURL']);
+                  return Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(
                         10,
                       ),
-                    ),
-                    child: ChewieListItem(
-                      videoPlayerController: VideoPlayerController.network(
-                        urls['videoURL'],
+                      child: Image.network(
+                        urls['imageURL'],
                       ),
                     ),
                   );
